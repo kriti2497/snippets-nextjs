@@ -1,5 +1,7 @@
 "use client";
 
+import * as actions from "@/actions";
+
 import React, { useState } from "react";
 
 import { Editor } from "@monaco-editor/react";
@@ -16,6 +18,8 @@ const SnippetEditForm = ({ snippet }: SnippetEditProps) => {
     setCode(value);
     console.log(value);
   };
+
+  const editSnippetAction = actions.editSnippet.bind(null, snippet.id, code);
   return (
     <div className="py-8 px-5">
       <Editor
@@ -26,6 +30,13 @@ const SnippetEditForm = ({ snippet }: SnippetEditProps) => {
         options={{ minimap: { enabled: false } }}
         onChange={handleEditorChange}
       />
+
+      {/* Option 1 */}
+      <form action={editSnippetAction} className="mt-2">
+        <button type="submit" className="p-2 border rounded">
+          Save
+        </button>
+      </form>
     </div>
   );
 };

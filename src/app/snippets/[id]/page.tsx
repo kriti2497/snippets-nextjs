@@ -1,3 +1,5 @@
+import * as actions from "@/actions";
+
 import Link from "next/link";
 import React from "react";
 import { db } from "@/db";
@@ -20,6 +22,7 @@ const SnippetDetails = async (props: SnippetDetailProps) => {
   });
 
   if (!snippet) return notFound();
+  const deleteSnippetAction = actions.deleteSnippet.bind(null, snippet.id);
   return (
     <div className="py-8 px-6">
       <div className="flex justify-between items-center mb-4">
@@ -31,7 +34,11 @@ const SnippetDetails = async (props: SnippetDetailProps) => {
           >
             Edit
           </Link>
-          <button className="rounded border p-2">Delete</button>
+          <form action={deleteSnippetAction}>
+            <button type="submit" className="rounded border p-2">
+              Delete
+            </button>
+          </form>
         </div>
       </div>
       <pre className="rounded border border-gray-400 p-3 bg-slate-200">
