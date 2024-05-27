@@ -2,6 +2,7 @@
 
 import { db } from "@/db";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export async function editSnippet(id: number, code: string) {
   //   console.log("Edit Snippet triggered", id, code);
@@ -9,6 +10,7 @@ export async function editSnippet(id: number, code: string) {
     where: { id },
     data: { code },
   });
+  revalidatePath(`/snippets/${id}`);
   redirect(`/snippets/${id}`);
 }
 
@@ -16,6 +18,7 @@ export async function deleteSnippet(id: number) {
   await db.snippets.delete({
     where: { id },
   });
+  revalidatePath("/");
   redirect(`/`);
 }
 
@@ -65,6 +68,7 @@ export async function createNewSnippet(
     }
   }
   // navigate user to home page upon successful submission
+  revalidatePath("/");
 
   redirect("/");
 }
